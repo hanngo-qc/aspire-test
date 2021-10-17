@@ -1,0 +1,18 @@
+{
+  "testDataSuccess": {
+    "fullName": "Han",
+    "preferredName": "Ngo",
+    "email": "123456@gmail.com",
+    "phoneNumber": "123456",
+    "optCode": "1234"
+  },
+  "testDataFailed": {
+    "phoneNumber": "123",
+    "optCode": "2468",
+    "email": "97531098908@gmail.com"
+  },
+  "testDataRequiredField": {
+    "phoneNumber": "1",
+    "email": "1"
+  }
+}
