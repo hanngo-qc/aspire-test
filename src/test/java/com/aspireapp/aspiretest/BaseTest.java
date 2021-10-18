@@ -20,13 +20,12 @@ public class BaseTest {
     public void setupTestData() {
         logger.info("Initializing Staging env");
         System.setProperty("webdriver.chrome.driver", "src/main/resources/Drivers/chromedriver94.0");
-        driver = new ChromeDriver();
         data = ConvertUtil.convertJsonFileToMap(Constants.STAGE_TEST_DATA_NAME);
     }
 
-    @BeforeMethod(groups = {"Major", "Medium", "Minor"})
+    @BeforeMethod(alwaysRun = true)
     public void accessPage() {
-
+        driver = new ChromeDriver();
         driver.get("https://feature-qa-automation.customer-frontend.staging.aspireapp.com/sg/login");
         try {
             Thread.sleep(5000);

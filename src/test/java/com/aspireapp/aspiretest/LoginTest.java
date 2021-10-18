@@ -40,6 +40,7 @@ public class LoginTest extends BaseTest {
         loginPage.loginAccountByEmail(validEmail);
 
         logger.info("Access to OPT page");
+        otpPage.waitUtilEmailOptHeaderDisplayed();
         Assert.assertEquals(otpPage.getPageTitle(), TestConstants.OPT_PAGE_TITLE);
     }
 
@@ -52,6 +53,7 @@ public class LoginTest extends BaseTest {
         loginPage.loginAccountByPhone(validPhoneNumber);
 
         logger.info("Access to OPT page");
+        otpPage.waitUtilPhoneOptHeaderDisplayed();
         Assert.assertEquals(otpPage.getPageTitle(), TestConstants.OPT_PAGE_TITLE);
     }
 
@@ -64,6 +66,7 @@ public class LoginTest extends BaseTest {
         loginPage.loginAccountByPhoneWithCountryCode(validPhoneNumber);
 
         logger.info("Access to OPT page");
+        otpPage.waitUtilPhoneOptHeaderDisplayed();
         Assert.assertEquals(otpPage.getPageTitle(), TestConstants.OPT_PAGE_TITLE);
     }
 
@@ -74,17 +77,17 @@ public class LoginTest extends BaseTest {
         logger.info("Access Login page");
         Assert.assertEquals(loginPage.getPageTitle(), TestConstants.LOGIN_PAGE_TITLE);
         loginPage.loginAccountByEmail(invalidEmail);
-        Assert.assertEquals(loginPage.getErrorLabel(), TestConstants.INVALID_EMAIL_MESSAGE);
+        Assert.assertEquals(loginPage.getErrorMessage(), TestConstants.INVALID_EMAIL_MESSAGE);
     }
 
     @Test(groups = "Medium")
-    private void loginAccountFailedPhoneNumber(){
+    public void loginAccountFailedPhoneNumber(){
         LoginPage loginPage = new LoginPage(driver);
 
         Assert.assertEquals(loginPage.getPageTitle(), TestConstants.LOGIN_PAGE_TITLE);
         loginPage.loginAccountByPhone(invalidPhoneNumber);
         loginPage.waitUtilPopupDisappear();
-        Assert.assertEquals(loginPage.getErrorLabel(), TestConstants.INVALID_PHONE_NUMBER_MESSAGE);
+        Assert.assertEquals(loginPage.getErrorMessage(), TestConstants.INVALID_PHONE_NUMBER_MESSAGE);
     }
 
     @Test(groups = {"Minor"})
@@ -94,9 +97,10 @@ public class LoginTest extends BaseTest {
 
         logger.info("Access Login page");
         Assert.assertEquals(loginPage.getPageTitle(), TestConstants.LOGIN_PAGE_TITLE);
-        loginPage.loginAccountWithoutRememberAcc(validPhoneNumber);
+        loginPage.loginAccountByPhoneWithoutRememberAcc(validPhoneNumber);
 
         logger.info("Access to OPT page");
+        otpPage.waitUtilPhoneOptHeaderDisplayed();
         Assert.assertEquals(otpPage.getPageTitle(), TestConstants.OPT_PAGE_TITLE);
     }
 }

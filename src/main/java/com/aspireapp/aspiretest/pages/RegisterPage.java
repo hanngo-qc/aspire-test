@@ -14,6 +14,9 @@ import java.util.concurrent.TimeUnit;
 public class RegisterPage extends PageObject {
     private static final Logger logger = Logger.getLogger(RegisterPage.class);
 
+    private static final String NOTIFICATION_MESSAGE_CSS_SELECTOR = "div[class*='text-subtitle1']";
+    private static final String OPTION_REGISTER_PERSON_CSS_SELECTOR = "div[role='option']";
+
     @FindBy(css = "input[data-cy='register-person-name']")
     private WebElement fullName;
 
@@ -32,7 +35,7 @@ public class RegisterPage extends PageObject {
     @FindBy(css = "div[data-cy='register-person-phone']>div>div[class*='text-negative']")
     private WebElement errorPhoneNumberMessage;
 
-    @FindBy(css = "div[data-cy='register-person-heard-about']")
+    @FindBy(css = "input[role='combobox']")
     private WebElement registerPersonHeard;
 
     @FindBy(css = "div[role='listbox']")
@@ -67,10 +70,14 @@ public class RegisterPage extends PageObject {
     public void registerUnrequiredFields(String validFullName, String validPreferredName) {
         elementHelper.inputText(fullName, validFullName);
         elementHelper.inputText(preferredName, validPreferredName);
+        selectOptionRegisterPerson();
+        elementHelper.click(agreeCheckBox);
+    }
+
+    public void selectOptionRegisterPerson(){
         elementHelper.click(registerPersonHeard);
         elementHelper.waitAndCheckElementDisplayed(listBoxRegisterPerson);
-        listBoxRegisterPerson.findElements(By.cssSelector("div[role='option']")).get(2).click();
-        elementHelper.click(agreeCheckBox);
+        listBoxRegisterPerson.findElements(By.cssSelector(OPTION_REGISTER_PERSON_CSS_SELECTOR)).get(0).click();
     }
 
     public void registerRequiredFields(String validEmail, String validPhoneNumber) {
@@ -96,7 +103,7 @@ public class RegisterPage extends PageObject {
         clickContinueBtn();
         driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS);
         try {
-            notificationContent = driver.findElement(By.cssSelector("div[class*='text-subtitle1']"));
+            notificationContent = driver.findElement(By.cssSelector(NOTIFICATION_MESSAGE_CSS_SELECTOR));
             while (notificationContent != null) {
                 logger.info("Existed Email/Phone number. Generate new Email/Phone number to Register Account");
                 elementHelper.click(closePopupBtn);
@@ -107,7 +114,7 @@ public class RegisterPage extends PageObject {
                 registerRequiredFields(validEmail, validPhoneNumber);
                 clickContinueBtn();
                 try {
-                    notificationContent = driver.findElement(By.cssSelector("div[class*='text-subtitle1']"));
+                    notificationContent = driver.findElement(By.cssSelector(NOTIFICATION_MESSAGE_CSS_SELECTOR));
                 } catch (NoSuchElementException exception) {
                     break;
                 }
@@ -125,6 +132,9 @@ public class RegisterPage extends PageObject {
         return elementHelper.getText(notificationContent);
     }
 
+    public void clickFullName(){
+        elementHelper.click(fullName);
+    }
     public String getInvalidEmailMessage() {
         return elementHelper.getText(errorEmailMessage);
     }
@@ -138,6 +148,7 @@ public class RegisterPage extends PageObject {
     }
 
     public void clearEmail() {
+        elementHelper.click(email);
         elementHelper.clearText(email);
     }
 

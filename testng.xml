@@ -1,0 +1,14 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite name="Aspire Test" parallel="false">
+    <listeners>
+        <listener class-name="com.aspireapp.aspiretest.extendReport.ExtentListeners"/>
+    </listeners>
+    <test name="Aspire Test">
+        <classes>
+            <class name="com.aspireapp.aspiretest.LoginTest">
+            </class>
+            <class name="com.aspireapp.aspiretest.RegistrationTest">
+            </class>
+        </classes>
+    </test>
+</suite>

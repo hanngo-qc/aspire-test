@@ -94,8 +94,7 @@ public class RegistrationTest extends BaseTest {
     }
 
     @Test(groups = "Minor")
-    public void validateRequireFields() {
-
+    public void validateInvalidEmailAndPhoneFields() {
         LoginPage loginPage = new LoginPage(driver);
         RegisterPage registerPage = new RegisterPage(driver);
 
@@ -106,11 +105,8 @@ public class RegistrationTest extends BaseTest {
         Assert.assertEquals(registerPage.getPageTitle(), TestConstants.REGISTER_PAGE_TITLE);
         registerPage.inputEmail(requiredEmail);
         registerPage.inputPhoneNumber(requiredPhoneNumber);
+        registerPage.clickFullName();
         Assert.assertEquals(registerPage.getInvalidEmailMessage(), TestConstants.INVALID_EMAIL_FORMAT_MESSAGE);
-        registerPage.clearEmail();
         Assert.assertEquals(registerPage.getInvalidPhoneMessage(), TestConstants.INVALID_DIGIT_PHONE_NUMBER_MESSAGE);
-        registerPage.clearPhoneNumber();
-        Assert.assertEquals(registerPage.getInvalidEmailMessage(), TestConstants.EMAIL_REQUIRED_MESSAGE);
-        Assert.assertEquals(registerPage.getInvalidPhoneMessage(), TestConstants.PHONE_NUMBER_REQUIRED_MESSAGE);
     }
 }

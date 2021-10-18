@@ -1,5 +1,6 @@
 package com.aspireapp.aspiretest.pages;
 
+import com.aspireapp.aspiretest.common.TestConstants;
 import com.aspireapp.aspiretest.pageobject.PageObject;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -21,7 +22,10 @@ public class LoginPage extends PageObject {
     private WebElement nextBtn;
 
     @FindBy(css = "div[class*='aspire-label__text']")
-    private WebElement errorLabel;
+    private WebElement errorMessage;
+
+    @FindBy(css = "img[src*='error']")
+    private WebElement errorIcon;
 
     @FindBy(css = "div[class*='aspire-modal-card']")
     private WebElement popUpChooseCountryCode;
@@ -58,17 +62,20 @@ public class LoginPage extends PageObject {
     }
 
     public void loginAccountByPhoneWithCountryCode(String account) {
-        elementHelper.inputText(inputPhoneEmail, "+65" + account);
+        elementHelper.inputText(inputPhoneEmail, TestConstants.SINGAPORE_COUNTRY_CODE + account);
         elementHelper.click(rememberCheckbox);
         elementHelper.click(nextBtn);
     }
 
-    public void loginAccountWithoutRememberAcc(String phone) {
+    public void loginAccountByPhoneWithoutRememberAcc(String phone) {
         elementHelper.inputText(inputPhoneEmail, phone);
         elementHelper.click(nextBtn);
+        elementHelper.waitAndCheckElementDisplayed(popUpChooseCountryCode);
+        elementHelper.click(nextBtnInPopUp);
     }
 
-    public String getErrorLabel() {
-        return elementHelper.getText(errorLabel);
+    public String getErrorMessage() {
+        elementHelper.waitAndCheckElementDisplayed(errorIcon);
+        return elementHelper.getText(errorMessage);
     }
 }
